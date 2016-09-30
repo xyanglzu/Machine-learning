@@ -15,15 +15,17 @@ grad = zeros(size(theta));
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
 %               Compute the partial derivatives and set grad to the partial
-%               derivatives of the cost w.r.t. each parameter in theta
-n = length(theta) - 1;
+%               derivatives of the cost w.r.t. each parameter in thetahypothesis = sigmoid(X * theta);
 
-g = sigmoid(X * theta);
-J = -1/m * sum(y .* log(g) + (1 - y) .* log(1 - g)) + ...
-    (lambda/(2*m)) * sum(theta(2:n+1, :) .^ 2);
 
-grad(1) = (1/m) * (X(:,1)' * (g - y));
-grad(2:n+1) = (1/m) * (X(:, 2:n+1)' * (g - y)) + (lambda/m) * theta(2:n+1);
+hypothesis = sigmoid(X * theta);
+J = -1/m * sum(y .* log(hypothesis) + (1-y) .* log(1-hypothesis)) + ...
+    lambda/(2*m) * sum(theta .^ 2);
+
+grad = 1/m * X' * (hypothesis - y);
+temp = theta;
+temp(1) = 0;
+grad = grad + lambda/m * temp;
 
 % =============================================================
 
